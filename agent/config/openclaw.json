@@ -1,0 +1,56 @@
+{
+  "gateway": {
+    "port": 3001,
+    "host": "127.0.0.1"
+  },
+  "workspace": "/root/perkyfi/agent/workspace",
+  "model": "anthropic/claude-sonnet-4-5",
+  
+  "agents": {
+    "defaults": {
+      "compaction": {
+        "mode": "safeguard",
+        "reserveTokensFloor": 20000,
+        "memoryFlush": {
+          "enabled": true,
+          "softThresholdTokens": 8000,
+          "systemPrompt": "🚨 CRITICAL: Session nearing compaction. You MUST save all important context to memory/YYYY-MM-DD.md NOW. Use memory-log skill. Include: current operation state, pending actions, important decisions. This is NOT optional.",
+          "prompt": "COMPACTION WARNING: Write everything important from this session to memory immediately using memory-log. Include:\n1. Current operation state (if any)\n2. Pending actions\n3. Recent decisions and their reasoning\n4. Any context needed for continuity\n\nAfter writing, reply with NO_REPLY."
+        }
+      },
+      "memorySearch": {
+        "enabled": true,
+        "provider": "openai",
+        "model": "text-embedding-3-small",
+        "fallback": "none",
+        "sync": {
+          "watch": true,
+          "debounceMs": 500
+        },
+        "query": {
+          "hybrid": {
+            "enabled": true,
+            "vectorWeight": 0.7,
+            "textWeight": 0.3
+          }
+        },
+        "cache": {
+          "enabled": true,
+          "maxEntries": 10000
+        }
+      }
+    }
+  },
+  
+  "channels": {
+    "telegram": {
+      "enabled": false
+    }
+  },
+  
+  "tools": {
+    "agentToAgent": {
+      "enabled": false
+    }
+  }
+}
