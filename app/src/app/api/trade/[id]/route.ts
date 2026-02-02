@@ -57,9 +57,9 @@ while monitoring for changes in sentiment. Will re-evaluate on next cycle.`,
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const tradeId = params.id
+  const { id: tradeId } = await params
   const trade = trades[tradeId]
 
   if (!trade) {

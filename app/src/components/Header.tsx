@@ -13,7 +13,7 @@ import {
   Address,
   Identity,
 } from '@coinbase/onchainkit/identity'
-import { Activity, BarChart3, Home } from 'lucide-react'
+import { Activity, BarChart3, Home, Settings } from 'lucide-react'
 
 export function Header() {
   return (
@@ -50,6 +50,13 @@ export function Header() {
             >
               <Activity className="h-4 w-4" />
               Trades
+            </Link>
+            <Link 
+              href="/admin" 
+              className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              <Settings className="h-4 w-4" />
+              Admin
             </Link>
           </nav>
 
