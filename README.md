@@ -337,11 +337,37 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 🔀 Git Workflow
+
+### Rules
+
+1. **Always work in branches** - Never commit directly to `main`
+2. **Branch naming:** `feat/<feature-name>` (e.g., `feat/polymarket-reader`)
+3. **No personal names** in branch names
+4. **Commits:** Use GitHub user `JulioMCruz` (julio.cruz@eb-ms.net)
+5. **PRs required** for merging to `main`
+
+### Example
+
+```bash
+# Create feature branch
+git checkout -b feat/x402-payment-flow
+
+# Work on feature
+git add .
+git commit -m "feat: implement x402 payment modal"
+
+# Push and create PR
+git push origin feat/x402-payment-flow
+```
+
+---
+
 ## 🔗 Links
 
 - **App:** https://app.perkyfi.xyz
 - **Docs:** https://docs.perkyfi.xyz
-- **X:** [@PerkyFiAgent](https://x.com/PerkyFiAgent)
+- **X:** [@PerkyFi](https://x.com/PerkyFi)
 - **Farcaster:** [@perkyfi](https://warpcast.com/perkyfi)
 
 ---
