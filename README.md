@@ -181,6 +181,87 @@ sequenceDiagram
 
 ---
 
+## 📡 Signals API Architecture
+
+PerkyFi generates trade signals and stores them in the webapp for users to access.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant PF as 🔮 PerkyFi Agent
+    participant PM as 📊 Polymarket
+    participant MO as 🏦 Morpho
+    participant API as 🔌 /api/signals
+    participant DB as 💾 Database
+    participant X as 🐦 X/Twitter
+    participant User as 👤 User
+
+    Note over PF: Hourly Cycle Triggered
+    
+    PF->>PM: Fetch crypto market predictions
+    PM-->>PF: Market odds + sentiment
+    
+    PF->>MO: Get current vault APY
+    MO-->>PF: APY data (e.g., 4.2%)
+    
+    PF->>PF: Analyze & generate signal
+    
+    alt Confidence ≥ 75%
+        PF->>API: POST /api/signals
+        Note right of API: {market_analysis, recommendation, confidence}
+        API->>DB: Store signal
+        DB-->>API: signal_id
+        API-->>PF: Success + signal_id
+        
+        PF->>X: Post teaser (no link in Stage 1)
+        X-->>PF: Posted ✓
+    else Confidence < 75%
+        PF->>PF: Log "no signal" (skip)
+    end
+
+    Note over User: Later...
+    User->>API: GET /api/signals
+    API->>DB: Fetch signals
+    DB-->>API: Signal list
+    API-->>User: Signals (Stage 2: with x402)
+```
+
+### Signal JSON Schema
+
+```json
+{
+  "id": "signal_abc123",
+  "timestamp": "2026-02-05T11:30:00Z",
+  "source": "polymarket",
+  "market_analysis": {
+    "market": "ETH > $4,000 by March",
+    "current_odds": 78,
+    "sentiment": "bullish"
+  },
+  "recommendation": {
+    "action": "deposit",
+    "vault": "Steakhouse USDC",
+    "vault_address": "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB",
+    "current_apy": 4.2,
+    "chain": "base"
+  },
+  "confidence": 78,
+  "post_template": "🔮 ETH sentiment looking bullish...",
+  "posted": true,
+  "post_url": "https://x.com/PerkyFi/status/..."
+}
+```
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/signals` | Create new signal (agent only) |
+| `GET` | `/api/signals` | List all signals |
+| `GET` | `/api/signals/{id}` | Get signal detail (x402 in Stage 2) |
+
+---
+
 ## 📁 Project Structure
 
 ```
