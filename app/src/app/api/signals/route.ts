@@ -148,10 +148,11 @@ export async function POST(request: NextRequest) {
       signalId: signalId,
       url: signalUrl
     }, { status: 201 })
-  } catch (error) {
+  } catch (error: any) {
     console.error('POST /api/signals error:', error)
+    const errorMessage = error?.message || error?.code || 'Unknown error'
     return NextResponse.json(
-      { success: false, error: 'Failed to create signal' },
+      { success: false, error: 'Failed to create signal', details: errorMessage },
       { status: 500 }
     )
   }
