@@ -23,10 +23,24 @@ interface Signal {
   post_template: string
   posted: boolean
   post_url?: string
+  url?: string  // Signal URL for sharing
 }
 
 // Storage file path (JSON file for MVP)
 const SIGNALS_FILE = path.join(process.cwd(), 'data', 'signals.json')
+
+// Validate agent API key
+function validateAgentKey(request: NextRequest): boolean {
+  const agentKey = request.headers.get('X-Agent-Key')
+  const expectedKey = process.env.AGENT_API_KEY
+  
+  if (!expectedKey) {
+    console.warn('AGENT_API_KEY not configured')
+    return false
+  }
+  
+  return agentKey === expectedKey
+}
 
 // Ensure data directory and file exist
 async function ensureStorage(): Promise<Signal[]> {
@@ -54,7 +68,7 @@ async function saveSignals(signals: Signal[]): Promise<void> {
   await fs.writeFile(SIGNALS_FILE, JSON.stringify(signals, null, 2))
 }
 
-// GET /api/signals - List all signals
+// GET /api/signals - List all signals (public)
 export async function GET(request: NextRequest) {
   try {
     const signals = await ensureStorage()
@@ -87,9 +101,17 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/signals - Create new signal (agent only)
+// POST /api/signals - Create new signal (agent only, requires API key)
 export async function POST(request: NextRequest) {
   try {
+    // Validate API key
+    if (!validateAgentKey(request)) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - invalid or missing X-Agent-Key' },
+        { status: 401 }
+      )
+    }
+    
     const body = await request.json()
     
     // Validate required fields
@@ -116,6 +138,10 @@ export async function POST(request: NextRequest) {
     // Generate signal ID
     const signalId = `signal_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`
     
+    // Build signal URL
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://perkyfi.xyz'
+    const signalUrl = `${baseUrl}/trade/${signalId}`
+    
     const newSignal: Signal = {
       id: signalId,
       timestamp: new Date().toISOString(),
@@ -125,15 +151,19 @@ export async function POST(request: NextRequest) {
       confidence: body.confidence,
       post_template: body.post_template,
       posted: body.posted || false,
-      post_url: body.post_url
+      post_url: body.post_url,
+      url: signalUrl
     }
     
     signals.push(newSignal)
     await saveSignals(signals)
     
+    // Return signal with URL for Twitter posting
     return NextResponse.json({
       success: true,
-      data: newSignal
+      data: newSignal,
+      signalId: signalId,
+      url: signalUrl
     }, { status: 201 })
   } catch (error) {
     console.error('POST /api/signals error:', error)
