@@ -8,6 +8,36 @@ An autonomous AI agent that analyzes Polymarket predictions to optimize yield al
 [![Built on Base](https://img.shields.io/badge/Built%20on-Base-0052FF)](https://base.org)
 [![Coinbase Developer Platform](https://img.shields.io/badge/Powered%20by-CDP-0052FF)](https://www.coinbase.com/developer-platform)
 
+## 🚀 Production Status
+
+**Live at:** [perkyfi.xyz](https://perkyfi.xyz)
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| 🌐 Frontend | ✅ Live | Netlify deployment |
+| 🔥 Database | ✅ Live | Firebase/Firestore |
+| 🔐 API Auth | ✅ Live | X-Agent-Key header |
+| 📊 Polymarket | ✅ Live | Real-time odds via skill |
+| 🐦 Twitter | ✅ Live | Auto-posting signals |
+| 💰 x402 Paywall | ✅ Live | $0.10 USDC per signal |
+| 🤖 Agent | ✅ Live | OpenClaw on VPS |
+
+### API Endpoint
+```bash
+POST https://perkyfi.xyz/api/signals
+Header: X-Agent-Key: <your-api-key>
+```
+
+### Skills Available
+- `polymarket` - Real-time prediction market data
+- `morpho-base` - Morpho vault interactions
+- `x402-client` - Payment protocol
+- `erc-8004` - On-chain identity
+- `neynar` - Farcaster integration
+- `x-bot` - Twitter/X posting
+
+---
+
 ## 🏆 Base Builder Quest 2026
 
 - **Deadline:** Feb 8, 2026 @ 11:59pm EST
@@ -32,7 +62,7 @@ PerkyFi is a **DeFi agent** that:
 ```mermaid
 flowchart TB
     subgraph External["External Data Sources"]
-        PM[("Polymarket\n(via Bankr)")]
+        PM[("Polymarket\n(Real-time API)")]
         FC[("Farcaster\n(via Neynar)")]
         TW[("X/Twitter\n(via Bird CLI)")]
     end
@@ -49,6 +79,7 @@ flowchart TB
             S3["x402-client"]
             S4["neynar"]
             S5["memory-log"]
+            S6["polymarket"]
         end
     end
 
