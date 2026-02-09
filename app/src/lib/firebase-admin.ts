@@ -39,11 +39,25 @@ function initAdmin() {
     const serviceAccount = getServiceAccount()
     
     if (serviceAccount) {
-      app = initializeApp({
-        credential: cert(serviceAccount),
-        projectId: 'perkyfi',
-      })
+      console.log('Firebase Admin: Initializing with project_id:', serviceAccount.project_id)
+      console.log('Firebase Admin: client_email:', serviceAccount.client_email)
+      console.log('Firebase Admin: private_key starts with:', serviceAccount.private_key?.substring(0, 30))
+      try {
+        app = initializeApp({
+          credential: cert(serviceAccount),
+          projectId: 'perkyfi',
+        })
+        console.log('Firebase Admin: Initialized successfully')
+      } catch (initError: any) {
+        console.error('Firebase Admin: Init error:', initError.message)
+        throw initError
+      }
     } else {
+      console.error('Firebase Admin: No credentials found')
+      console.log('FIREBASE_SERVICE_ACCOUNT set:', !!process.env.FIREBASE_SERVICE_ACCOUNT)
+      console.log('FIREBASE_PRIVATE_KEY set:', !!process.env.FIREBASE_PRIVATE_KEY)
+      console.log('FIREBASE_PROJECT_ID:', process.env.FIREBASE_PROJECT_ID)
+      console.log('FIREBASE_CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL)
       throw new Error('Firebase Admin credentials not configured')
     }
   } else {
