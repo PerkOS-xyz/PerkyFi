@@ -135,8 +135,12 @@ export async function POST(request: NextRequest) {
       confidence: body.confidence,
       post_template: body.post_template,
       posted: body.posted || false,
-      post_url: body.post_url,
       url: signalUrl
+    }
+    
+    // Only add post_url if it exists (Firestore doesn't accept undefined)
+    if (body.post_url) {
+      newSignal.post_url = body.post_url
     }
     
     // Save to Firestore
