@@ -13,9 +13,11 @@ import {
 // PerkyFi mascot image
 const PERKYFI_IMAGE = staticFile("perkyfi-profile.jpg");
 
-// Colors
+// Brand Colors (PerkOS)
 const COLORS = {
-  baseBlue: "#0052FF",
+  primary: "#EB1B69",      // Rosa PerkOS
+  secondary: "#0E0716",    // Purple oscuro
+  baseBlue: "#0052FF",     // Base blue
   darkBg: "#0a0a0f",
   cardBg: "#12121a",
   accent: "#00D4FF",
@@ -26,32 +28,34 @@ const COLORS = {
   gray: "#8892b0",
 };
 
-// Animated Background
-const AnimatedBackground = () => {
+// Animated Background with PerkOS gradient
+const AnimatedBackground = ({ variant = "default" }: { variant?: "default" | "pink" }) => {
   const frame = useCurrentFrame();
+  const primaryGradient = variant === "pink" ? COLORS.primary : COLORS.baseBlue;
+  
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.darkBg }}>
+    <AbsoluteFill style={{ backgroundColor: COLORS.secondary }}>
       <div
         style={{
           position: "absolute",
-          width: 600,
-          height: 600,
+          width: 700,
+          height: 700,
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${COLORS.baseBlue}40 0%, transparent 70%)`,
-          top: -200,
-          right: -200,
+          background: `radial-gradient(circle, ${primaryGradient}40 0%, transparent 70%)`,
+          top: -250,
+          right: -250,
           transform: `translate(${Math.sin(frame / 50) * 30}px, ${Math.cos(frame / 50) * 30}px)`,
         }}
       />
       <div
         style={{
           position: "absolute",
-          width: 400,
-          height: 400,
+          width: 500,
+          height: 500,
           borderRadius: "50%",
           background: `radial-gradient(circle, ${COLORS.purple}30 0%, transparent 70%)`,
-          bottom: -100,
-          left: -100,
+          bottom: -150,
+          left: -150,
           transform: `translate(${Math.cos(frame / 40) * 20}px, ${Math.sin(frame / 40) * 20}px)`,
         }}
       />
@@ -59,9 +63,9 @@ const AnimatedBackground = () => {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `linear-gradient(${COLORS.gray}08 1px, transparent 1px), linear-gradient(90deg, ${COLORS.gray}08 1px, transparent 1px)`,
-          backgroundSize: "50px 50px",
-          opacity: 0.5,
+          backgroundImage: `linear-gradient(${COLORS.gray}06 1px, transparent 1px), linear-gradient(90deg, ${COLORS.gray}06 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
+          opacity: 0.4,
         }}
       />
     </AbsoluteFill>
@@ -92,7 +96,7 @@ const FadeInText: React.FC<{
   );
 };
 
-// Scene 1: Intro
+// Scene 1: Intro with mascot
 const IntroScene = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -104,17 +108,18 @@ const IntroScene = () => {
 
   return (
     <AbsoluteFill>
-      <AnimatedBackground />
+      <AnimatedBackground variant="pink" />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div style={{ transform: `scale(${logoScale})`, marginBottom: 30 }}>
           <Img
             src={PERKYFI_IMAGE}
             style={{
-              width: 200,
-              height: 200,
+              width: 220,
+              height: 220,
               borderRadius: "50%",
-              border: `4px solid ${COLORS.baseBlue}`,
+              border: `5px solid ${COLORS.primary}`,
               objectFit: "cover",
+              boxShadow: `0 0 60px ${COLORS.primary}50`,
             }}
           />
         </div>
@@ -128,7 +133,7 @@ const IntroScene = () => {
           fontFamily: "system-ui, -apple-system, sans-serif",
           letterSpacing: -3,
         }}>
-          Perky<span style={{ color: COLORS.baseBlue }}>Fi</span>
+          Perky<span style={{ color: COLORS.primary }}>Fi</span>
         </h1>
         
         <p style={{
@@ -144,7 +149,7 @@ const IntroScene = () => {
         <div style={{ display: "flex", gap: 20, opacity: badgeOpacity }}>
           <div style={{
             background: COLORS.baseBlue,
-            padding: "12px 24px",
+            padding: "14px 28px",
             borderRadius: 30,
             fontSize: 24,
             color: COLORS.white,
@@ -153,15 +158,15 @@ const IntroScene = () => {
             🔵 Built on Base
           </div>
           <div style={{
-            background: COLORS.cardBg,
-            border: `2px solid ${COLORS.purple}`,
-            padding: "12px 24px",
+            background: `linear-gradient(135deg, ${COLORS.primary}40, ${COLORS.purple}40)`,
+            border: `2px solid ${COLORS.primary}`,
+            padding: "14px 28px",
             borderRadius: 30,
             fontSize: 24,
-            color: COLORS.purple,
+            color: COLORS.white,
             fontWeight: 600,
           }}>
-            🤖 Autonomous AI Agent
+            🔮 Powered by PerkOS
           </div>
         </div>
       </AbsoluteFill>
@@ -169,56 +174,67 @@ const IntroScene = () => {
   );
 };
 
-// Scene 2: What is PerkyFi
-const WhatIsPerkyFiScene = () => {
+// Scene 2: The First Predictive Yield Agent
+const ValuePropScene = () => {
+  const pillars = [
+    { icon: "📊", title: "Análisis Predictivo", desc: "Lee Polymarket para sentiment del mercado" },
+    { icon: "💰", title: "Yield Optimization", desc: "Deposita en Morpho Blue para máximo APY" },
+    { icon: "🔗", title: "Transparencia Total", desc: "Todos los movimientos on-chain y públicos" },
+  ];
+
   return (
     <AbsoluteFill>
-      <AnimatedBackground />
+      <AnimatedBackground variant="pink" />
       <AbsoluteFill style={{ padding: 100, justifyContent: "center" }}>
         <FadeInText>
           <h2 style={{
-            fontSize: 64,
-            color: COLORS.accent,
-            marginBottom: 50,
+            fontSize: 56,
+            color: COLORS.primary,
+            marginBottom: 20,
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            🔮 What is PerkyFi?
+            🔮 El Primer Agente DeFi que Combina
           </h2>
-        </FadeInText>
-
-        <FadeInText delay={20}>
           <p style={{
-            fontSize: 42,
+            fontSize: 48,
             color: COLORS.white,
-            lineHeight: 1.6,
-            marginBottom: 50,
+            marginBottom: 60,
             fontFamily: "system-ui, sans-serif",
           }}>
-            An <span style={{ color: COLORS.green }}>autonomous AI agent</span> that analyzes{" "}
-            <span style={{ color: COLORS.purple }}>Polymarket predictions</span> to optimize{" "}
-            <span style={{ color: COLORS.baseBlue }}>yield allocation on Morpho</span>
+            <span style={{ color: COLORS.accent }}>Predicciones</span> + <span style={{ color: COLORS.green }}>Yield</span> en Base
           </p>
         </FadeInText>
 
         <div style={{ display: "flex", gap: 30 }}>
-          {[
-            { emoji: "🧠", text: "AI-Powered Analysis" },
-            { emoji: "⚡", text: "Autonomous Execution" },
-            { emoji: "📊", text: "Real-time Decisions" },
-          ].map((item, i) => (
-            <FadeInText key={i} delay={40 + i * 15}>
+          {pillars.map((pillar, i) => (
+            <FadeInText key={i} delay={30 + i * 20}>
               <div style={{
                 background: COLORS.cardBg,
-                border: `1px solid ${COLORS.baseBlue}40`,
-                padding: "25px 35px",
-                borderRadius: 16,
-                display: "flex",
-                alignItems: "center",
-                gap: 15,
+                border: `2px solid ${COLORS.primary}30`,
+                padding: "40px 35px",
+                borderRadius: 24,
+                textAlign: "center",
+                flex: 1,
+                minWidth: 300,
               }}>
-                <span style={{ fontSize: 40 }}>{item.emoji}</span>
-                <span style={{ fontSize: 24, color: COLORS.white }}>{item.text}</span>
+                <span style={{ fontSize: 64 }}>{pillar.icon}</span>
+                <h3 style={{
+                  fontSize: 28,
+                  color: COLORS.white,
+                  margin: "20px 0 10px",
+                  fontFamily: "system-ui, sans-serif",
+                }}>
+                  {pillar.title}
+                </h3>
+                <p style={{
+                  fontSize: 20,
+                  color: COLORS.gray,
+                  margin: 0,
+                  lineHeight: 1.4,
+                }}>
+                  {pillar.desc}
+                </p>
               </div>
             </FadeInText>
           ))}
@@ -228,14 +244,14 @@ const WhatIsPerkyFiScene = () => {
   );
 };
 
-// Scene 3: Core Features
-const CoreFeaturesScene = () => {
-  const features = [
-    { icon: "📊", title: "Polymarket Integration", desc: "Analyzes crypto prediction markets for sentiment signals" },
-    { icon: "🏦", title: "Morpho Yield Vaults", desc: "Deposits and withdraws from Steakhouse USDC vault on Base" },
-    { icon: "🐦", title: "Social Sharing", desc: "Automatically posts trade signals on X/Twitter" },
-    { icon: "💳", title: "x402 Monetization", desc: "Users pay $0.10 USDC to access full trade details" },
-    { icon: "🔗", title: "On-chain Identity", desc: "ERC-8004 reputation tracking on Ethereum" },
+// Scene 3: How It Works
+const HowItWorksScene = () => {
+  const steps = [
+    { num: "01", text: "Analiza sentiment en Polymarket", icon: "📊" },
+    { num: "02", text: "Evalúa confianza (>75% para actuar)", icon: "🎯" },
+    { num: "03", text: "Optimiza posiciones en Morpho yield", icon: "💰" },
+    { num: "04", text: "Publica actualizaciones transparentes", icon: "🐦" },
+    { num: "05", text: "Registra todo on-chain via ERC-8004", icon: "🔗" },
   ];
 
   return (
@@ -250,12 +266,12 @@ const CoreFeaturesScene = () => {
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            ✨ Core Features
+            ⚙️ Cómo Funciona
           </h2>
         </FadeInText>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          {features.map((feature, i) => (
+          {steps.map((step, i) => (
             <FadeInText key={i} delay={i * 15}>
               <div style={{
                 display: "flex",
@@ -264,27 +280,25 @@ const CoreFeaturesScene = () => {
                 background: COLORS.cardBg,
                 padding: "22px 30px",
                 borderRadius: 16,
-                border: `1px solid ${COLORS.baseBlue}30`,
+                border: `1px solid ${COLORS.primary}20`,
               }}>
-                <span style={{ fontSize: 40 }}>{feature.icon}</span>
-                <div>
-                  <h4 style={{
-                    fontSize: 26,
-                    color: COLORS.white,
-                    margin: 0,
-                    fontFamily: "system-ui, sans-serif",
-                  }}>
-                    {feature.title}
-                  </h4>
-                  <p style={{
-                    fontSize: 20,
-                    color: COLORS.gray,
-                    margin: "5px 0 0",
-                    fontFamily: "system-ui, sans-serif",
-                  }}>
-                    {feature.desc}
-                  </p>
-                </div>
+                <span style={{
+                  fontSize: 24,
+                  color: COLORS.primary,
+                  fontWeight: 700,
+                  fontFamily: "monospace",
+                  minWidth: 45,
+                }}>
+                  {step.num}
+                </span>
+                <span style={{ fontSize: 40 }}>{step.icon}</span>
+                <span style={{
+                  fontSize: 26,
+                  color: COLORS.white,
+                  fontFamily: "system-ui, sans-serif",
+                }}>
+                  {step.text}
+                </span>
               </div>
             </FadeInText>
           ))}
@@ -294,78 +308,83 @@ const CoreFeaturesScene = () => {
   );
 };
 
-// Scene 4: Trading Strategy
-const TradingStrategyScene = () => {
-  const thresholds = [
+// Scene 4: Trading Philosophy
+const TradingPhilosophyScene = () => {
+  const rules = [
     { range: "> 85%", action: "Strong position", color: COLORS.green, emoji: "🚀" },
     { range: "> 75%", action: "Consider entering", color: COLORS.accent, emoji: "📈" },
     { range: "< 60%", action: "Stay in stables", color: COLORS.gray, emoji: "💰" },
     { range: "< 50%", action: "Reduce exposure", color: COLORS.red, emoji: "⚠️" },
   ];
 
+  const nevers = ["YOLO trades", "Leverage", "Degen plays", "Financial advice"];
+
   return (
     <AbsoluteFill>
       <AnimatedBackground />
-      <AbsoluteFill style={{ padding: 100 }}>
+      <AbsoluteFill style={{ padding: "70px 100px" }}>
         <FadeInText>
           <h2 style={{
-            fontSize: 56,
+            fontSize: 52,
             color: COLORS.white,
-            marginBottom: 20,
+            marginBottom: 15,
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            📊 Conservative Trading Strategy
+            📈 Conservative pero Efectivo
           </h2>
-          <p style={{ fontSize: 28, color: COLORS.gray, marginBottom: 50 }}>
-            Risk-managed decisions based on Polymarket confidence scores
+          <p style={{ fontSize: 26, color: COLORS.gray, marginBottom: 40 }}>
+            Estrategia basada en data, no en hype
           </p>
         </FadeInText>
 
-        <div style={{ display: "flex", gap: 25 }}>
-          {thresholds.map((t, i) => (
-            <FadeInText key={i} delay={20 + i * 15}>
+        <div style={{ display: "flex", gap: 20, marginBottom: 40 }}>
+          {rules.map((rule, i) => (
+            <FadeInText key={i} delay={20 + i * 12}>
               <div style={{
                 background: COLORS.cardBg,
-                border: `2px solid ${t.color}`,
-                padding: "30px 35px",
-                borderRadius: 20,
+                border: `2px solid ${rule.color}`,
+                padding: "25px 30px",
+                borderRadius: 18,
                 textAlign: "center",
-                minWidth: 220,
+                minWidth: 200,
               }}>
-                <span style={{ fontSize: 48 }}>{t.emoji}</span>
+                <span style={{ fontSize: 40 }}>{rule.emoji}</span>
                 <p style={{
-                  fontSize: 36,
-                  color: t.color,
+                  fontSize: 32,
+                  color: rule.color,
                   fontWeight: 700,
-                  margin: "15px 0 10px",
+                  margin: "10px 0 8px",
                   fontFamily: "monospace",
                 }}>
-                  {t.range}
+                  {rule.range}
                 </p>
-                <p style={{
-                  fontSize: 22,
-                  color: COLORS.white,
-                  margin: 0,
-                }}>
-                  {t.action}
+                <p style={{ fontSize: 18, color: COLORS.white, margin: 0 }}>
+                  {rule.action}
                 </p>
               </div>
             </FadeInText>
           ))}
         </div>
 
-        <FadeInText delay={100}>
+        <FadeInText delay={80}>
           <div style={{
-            marginTop: 50,
-            padding: "20px 30px",
-            background: COLORS.baseBlue + "20",
-            borderRadius: 12,
-            borderLeft: `4px solid ${COLORS.baseBlue}`,
+            display: "flex",
+            gap: 15,
+            justifyContent: "center",
           }}>
-            <p style={{ fontSize: 24, color: COLORS.white, margin: 0 }}>
-              💡 PerkyFi never YOLOs, never uses leverage, and always explains its reasoning
-            </p>
+            {nevers.map((never, i) => (
+              <div key={i} style={{
+                background: COLORS.red + "20",
+                border: `1px solid ${COLORS.red}40`,
+                padding: "12px 20px",
+                borderRadius: 10,
+                fontSize: 20,
+                color: COLORS.red,
+              }}>
+                ❌ {never}
+              </div>
+            ))}
           </div>
         </FadeInText>
       </AbsoluteFill>
@@ -376,11 +395,11 @@ const TradingStrategyScene = () => {
 // Scene 5: Tech Stack
 const TechStackScene = () => {
   const stack = [
-    { icon: "🔵", name: "Base", desc: "L2 Network", color: COLORS.baseBlue },
-    { icon: "🏦", name: "Morpho", desc: "Yield Protocol", color: COLORS.green },
-    { icon: "💳", name: "x402", desc: "Payments", color: COLORS.accent },
-    { icon: "🤖", name: "OpenClaw", desc: "Agent Framework", color: COLORS.purple },
-    { icon: "📊", name: "Polymarket", desc: "Predictions", color: COLORS.red },
+    { icon: "🔵", name: "Base", desc: "Mainnet" },
+    { icon: "🏦", name: "Morpho Blue", desc: "Yield" },
+    { icon: "📊", name: "Polymarket", desc: "Data" },
+    { icon: "🆔", name: "ERC-8004", desc: "Identity" },
+    { icon: "🤖", name: "OpenClaw", desc: "Framework" },
   ];
 
   return (
@@ -389,18 +408,15 @@ const TechStackScene = () => {
       <AbsoluteFill style={{ padding: 100, justifyContent: "center" }}>
         <FadeInText>
           <h2 style={{
-            fontSize: 56,
+            fontSize: 52,
             color: COLORS.white,
-            marginBottom: 20,
+            marginBottom: 50,
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
             textAlign: "center",
           }}>
-            🛠️ Powered by Coinbase Developer Platform
+            🛠️ Stack Técnico
           </h2>
-          <p style={{ fontSize: 28, color: COLORS.gray, marginBottom: 50, textAlign: "center" }}>
-            Built entirely on Base using cutting-edge Web3 infrastructure
-          </p>
         </FadeInText>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 25 }}>
@@ -408,15 +424,15 @@ const TechStackScene = () => {
             <FadeInText key={i} delay={i * 12}>
               <div style={{
                 background: COLORS.cardBg,
-                border: `2px solid ${tech.color}40`,
+                border: `2px solid ${COLORS.baseBlue}30`,
                 padding: "30px 40px",
                 borderRadius: 20,
                 textAlign: "center",
-                minWidth: 170,
+                minWidth: 160,
               }}>
                 <span style={{ fontSize: 52 }}>{tech.icon}</span>
                 <h4 style={{
-                  fontSize: 26,
+                  fontSize: 24,
                   color: COLORS.white,
                   margin: "12px 0 5px",
                   fontFamily: "system-ui, sans-serif",
@@ -424,7 +440,7 @@ const TechStackScene = () => {
                   {tech.name}
                 </h4>
                 <p style={{
-                  fontSize: 18,
+                  fontSize: 16,
                   color: COLORS.gray,
                   margin: 0,
                 }}>
@@ -439,91 +455,65 @@ const TechStackScene = () => {
   );
 };
 
-// Scene 6: How Copy-Trade Works
-const CopyTradeScene = () => {
-  const steps = [
-    { num: "1", text: "PerkyFi analyzes Polymarket & executes trade on Morpho" },
-    { num: "2", text: "Posts trade signal on X with app.perkyfi.xyz link" },
-    { num: "3", text: "User clicks link → sees x402 payment gate ($0.10)" },
-    { num: "4", text: "After payment, user gets full trade details" },
-    { num: "5", text: "User can copy the exact trade with one click" },
-  ];
-
+// Scene 6: Personality & Communication
+const PersonalityScene = () => {
   return (
     <AbsoluteFill>
-      <AnimatedBackground />
+      <AnimatedBackground variant="pink" />
       <AbsoluteFill style={{ padding: "80px 100px" }}>
         <FadeInText>
           <h2 style={{
-            fontSize: 56,
+            fontSize: 52,
             color: COLORS.white,
-            marginBottom: 50,
+            marginBottom: 40,
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            🔄 Copy-Trade Flow
+            🗣️ Your Friendly DeFi Agent
           </h2>
         </FadeInText>
 
         <div style={{ display: "flex", gap: 50 }}>
-          <div style={{ flex: 1 }}>
-            {steps.map((step, i) => (
-              <FadeInText key={i} delay={i * 20}>
-                <div style={{
+          <FadeInText delay={20}>
+            <div style={{ flex: 1 }}>
+              <h3 style={{ fontSize: 28, color: COLORS.primary, marginBottom: 25 }}>Personality</h3>
+              {["Chill DeFi friend 🔮", "Casual, no corporativo", "Transparente siempre", "Data-driven decisions"].map((trait, i) => (
+                <div key={i} style={{
                   display: "flex",
-                  alignItems: "flex-start",
-                  gap: 20,
-                  marginBottom: 25,
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 15,
                 }}>
-                  <div style={{
-                    width: 45,
-                    height: 45,
-                    borderRadius: "50%",
-                    background: COLORS.baseBlue,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 22,
-                    color: COLORS.white,
-                    fontWeight: 700,
-                    flexShrink: 0,
-                  }}>
-                    {step.num}
-                  </div>
-                  <p style={{
-                    fontSize: 26,
-                    color: COLORS.white,
-                    margin: 0,
-                    lineHeight: 1.4,
-                  }}>
-                    {step.text}
-                  </p>
+                  <span style={{ color: COLORS.green, fontSize: 24 }}>✓</span>
+                  <span style={{ color: COLORS.white, fontSize: 24 }}>{trait}</span>
                 </div>
-              </FadeInText>
-            ))}
-          </div>
+              ))}
+            </div>
+          </FadeInText>
 
-          <FadeInText delay={60}>
+          <FadeInText delay={50}>
             <div style={{
+              flex: 1.2,
               background: COLORS.cardBg,
-              borderRadius: 24,
-              padding: 35,
-              border: `2px solid ${COLORS.accent}`,
-              width: 400,
+              borderRadius: 20,
+              padding: 30,
+              border: `1px solid ${COLORS.primary}30`,
             }}>
-              <div style={{ textAlign: "center", marginBottom: 25 }}>
-                <p style={{ fontSize: 20, color: COLORS.gray, margin: 0 }}>Signal Access Price</p>
-                <p style={{ fontSize: 64, color: COLORS.accent, margin: "10px 0", fontWeight: 700 }}>$0.10</p>
-                <p style={{ fontSize: 18, color: COLORS.gray, margin: 0 }}>USDC on Base</p>
-              </div>
+              <h3 style={{ fontSize: 24, color: COLORS.gray, marginBottom: 20 }}>Example Post</h3>
               <div style={{
-                background: COLORS.baseBlue + "20",
-                padding: 15,
-                borderRadius: 12,
-                textAlign: "center",
+                background: COLORS.secondary,
+                borderRadius: 16,
+                padding: 25,
+                fontFamily: "system-ui, sans-serif",
               }}>
-                <p style={{ fontSize: 18, color: COLORS.white, margin: 0 }}>
-                  Revenue reinvested in yield strategies
+                <p style={{ color: COLORS.white, fontSize: 22, lineHeight: 1.6, margin: 0 }}>
+                  🔮 hourly update<br/><br/>
+                  polymarket sentiment:<br/>
+                  • ETH bullish: 74% confidence<br/><br/>
+                  my move: moved 10% to morpho yield<br/>
+                  track record: 15/18 (83%)<br/><br/>
+                  all moves on-chain 🔗<br/>
+                  <span style={{ color: COLORS.primary }}>powered by @perk_os</span>
                 </p>
               </div>
             </div>
@@ -534,63 +524,52 @@ const CopyTradeScene = () => {
   );
 };
 
-// Scene 7: Transparency & Trust
-const TransparencyScene = () => {
-  const points = [
-    { emoji: "📜", text: "Every trade logged on-chain" },
-    { emoji: "🎯", text: "Win/loss ratio published publicly" },
-    { emoji: "🤝", text: "Mistakes acknowledged openly" },
-    { emoji: "🔍", text: "Full transaction history on BaseScan" },
+// Scene 7: Key Differentiators
+const DifferentiatorsScene = () => {
+  const diffs = [
+    { emoji: "🥇", text: "Primer agente predictivo + yield en Base" },
+    { emoji: "📊", text: "Track record público y verificable" },
+    { emoji: "🛡️", text: "Conservative approach - no degen" },
+    { emoji: "🆔", text: "ERC-8004 identity - reputación on-chain" },
+    { emoji: "🏠", text: "PerkOS ecosystem - parte de algo grande" },
   ];
 
   return (
     <AbsoluteFill>
       <AnimatedBackground />
-      <AbsoluteFill style={{ padding: 100, justifyContent: "center", alignItems: "center" }}>
+      <AbsoluteFill style={{ padding: 100, justifyContent: "center" }}>
         <FadeInText>
           <h2 style={{
-            fontSize: 56,
-            color: COLORS.green,
+            fontSize: 52,
+            color: COLORS.white,
             marginBottom: 50,
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
             textAlign: "center",
           }}>
-            🛡️ Transparency {">"} Perfection
+            💡 ¿Por qué PerkyFi?
           </h2>
         </FadeInText>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 25, justifyContent: "center", maxWidth: 1000 }}>
-          {points.map((point, i) => (
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          {diffs.map((diff, i) => (
             <FadeInText key={i} delay={i * 15}>
               <div style={{
-                background: COLORS.cardBg,
-                border: `1px solid ${COLORS.green}40`,
-                padding: "25px 35px",
-                borderRadius: 16,
                 display: "flex",
                 alignItems: "center",
-                gap: 15,
-                minWidth: 400,
+                gap: 20,
+                background: COLORS.cardBg,
+                padding: "20px 30px",
+                borderRadius: 16,
+                marginBottom: 15,
+                border: `1px solid ${COLORS.primary}20`,
               }}>
-                <span style={{ fontSize: 36 }}>{point.emoji}</span>
-                <span style={{ fontSize: 26, color: COLORS.white }}>{point.text}</span>
+                <span style={{ fontSize: 36 }}>{diff.emoji}</span>
+                <span style={{ fontSize: 26, color: COLORS.white }}>{diff.text}</span>
               </div>
             </FadeInText>
           ))}
         </div>
-
-        <FadeInText delay={80}>
-          <p style={{
-            fontSize: 32,
-            color: COLORS.gray,
-            marginTop: 50,
-            textAlign: "center",
-            fontStyle: "italic",
-          }}>
-            "confident but humble — here's my analysis, but i could be wrong"
-          </p>
-        </FadeInText>
       </AbsoluteFill>
     </AbsoluteFill>
   );
@@ -604,45 +583,45 @@ const OutroScene = () => {
 
   return (
     <AbsoluteFill>
-      <AnimatedBackground />
+      <AnimatedBackground variant="pink" />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div style={{ transform: `scale(${scale})`, textAlign: "center" }}>
           <Img
             src={PERKYFI_IMAGE}
             style={{
-              width: 150,
-              height: 150,
+              width: 140,
+              height: 140,
               borderRadius: "50%",
-              border: `4px solid ${COLORS.baseBlue}`,
+              border: `4px solid ${COLORS.primary}`,
               objectFit: "cover",
-              marginBottom: 10,
+              marginBottom: 15,
+              boxShadow: `0 0 50px ${COLORS.primary}40`,
             }}
           />
           <h1 style={{
-            fontSize: 90,
+            fontSize: 80,
             color: COLORS.white,
-            margin: "20px 0",
+            margin: "15px 0",
             fontWeight: 800,
             fontFamily: "system-ui, sans-serif",
           }}>
-            Perky<span style={{ color: COLORS.baseBlue }}>Fi</span>
+            Perky<span style={{ color: COLORS.primary }}>Fi</span>
           </h1>
-          <p style={{ fontSize: 32, color: COLORS.gray, marginBottom: 40 }}>
-            Autonomous Yield Optimization on Base
+          <p style={{ fontSize: 30, color: COLORS.gray, marginBottom: 35 }}>
+            Tu friendly neighborhood DeFi agent 🔮
           </p>
 
-          <div style={{ display: "flex", gap: 30, justifyContent: "center", marginBottom: 40 }}>
+          <div style={{ display: "flex", gap: 25, justifyContent: "center", marginBottom: 35 }}>
             {[
-              { icon: "🌐", text: "perkyfi.xyz" },
+              { icon: "🌐", text: "PerkyFi.xyz" },
               { icon: "🐦", text: "@PerkyFi" },
-              { icon: "📦", text: "Open Source" },
             ].map((link, i) => (
               <div key={i} style={{
                 display: "flex",
                 alignItems: "center",
                 gap: 10,
                 background: COLORS.cardBg,
-                padding: "15px 25px",
+                padding: "14px 24px",
                 borderRadius: 12,
               }}>
                 <span style={{ fontSize: 22 }}>{link.icon}</span>
@@ -652,22 +631,19 @@ const OutroScene = () => {
           </div>
 
           <div style={{
-            background: COLORS.baseBlue,
-            padding: "18px 35px",
+            background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.purple})`,
+            padding: "16px 32px",
             borderRadius: 16,
             display: "inline-block",
+            marginBottom: 20,
           }}>
-            <p style={{ fontSize: 26, color: COLORS.white, margin: 0, fontWeight: 600 }}>
-              🏆 Built for Base Builder Quest 2026
+            <p style={{ fontSize: 24, color: COLORS.white, margin: 0, fontWeight: 600 }}>
+              🏆 Base Builder Quest 2026
             </p>
           </div>
 
-          <p style={{
-            fontSize: 22,
-            color: COLORS.gray,
-            marginTop: 30,
-          }}>
-            Part of the PerkOS ecosystem
+          <p style={{ fontSize: 20, color: COLORS.gray }}>
+            powered by <span style={{ color: COLORS.primary }}>@perk_os</span>
           </p>
         </div>
       </AbsoluteFill>
@@ -675,47 +651,47 @@ const OutroScene = () => {
   );
 };
 
-// Main Video Component - 70 seconds total
+// Main Video Component - 75 seconds total
 export const PerkyFiVideo: React.FC = () => {
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.darkBg }}>
+    <AbsoluteFill style={{ backgroundColor: COLORS.secondary }}>
       {/* Scene 1: Intro - 5s */}
       <Sequence from={0} durationInFrames={150}>
         <IntroScene />
       </Sequence>
 
-      {/* Scene 2: What is PerkyFi - 8s */}
-      <Sequence from={150} durationInFrames={240}>
-        <WhatIsPerkyFiScene />
+      {/* Scene 2: Value Prop - 10s */}
+      <Sequence from={150} durationInFrames={300}>
+        <ValuePropScene />
       </Sequence>
 
-      {/* Scene 3: Core Features - 12s */}
-      <Sequence from={390} durationInFrames={360}>
-        <CoreFeaturesScene />
+      {/* Scene 3: How It Works - 10s */}
+      <Sequence from={450} durationInFrames={300}>
+        <HowItWorksScene />
       </Sequence>
 
-      {/* Scene 4: Trading Strategy - 10s */}
+      {/* Scene 4: Trading Philosophy - 10s */}
       <Sequence from={750} durationInFrames={300}>
-        <TradingStrategyScene />
+        <TradingPhilosophyScene />
       </Sequence>
 
-      {/* Scene 5: Tech Stack - 10s */}
-      <Sequence from={1050} durationInFrames={300}>
+      {/* Scene 5: Tech Stack - 8s */}
+      <Sequence from={1050} durationInFrames={240}>
         <TechStackScene />
       </Sequence>
 
-      {/* Scene 6: Copy-Trade Flow - 12s */}
-      <Sequence from={1350} durationInFrames={360}>
-        <CopyTradeScene />
+      {/* Scene 6: Personality - 12s */}
+      <Sequence from={1290} durationInFrames={360}>
+        <PersonalityScene />
       </Sequence>
 
-      {/* Scene 7: Transparency - 8s */}
-      <Sequence from={1710} durationInFrames={240}>
-        <TransparencyScene />
+      {/* Scene 7: Differentiators - 10s */}
+      <Sequence from={1650} durationInFrames={300}>
+        <DifferentiatorsScene />
       </Sequence>
 
-      {/* Scene 8: Outro - 5s */}
-      <Sequence from={1950} durationInFrames={150}>
+      {/* Scene 8: Outro - 10s */}
+      <Sequence from={1950} durationInFrames={300}>
         <OutroScene />
       </Sequence>
     </AbsoluteFill>

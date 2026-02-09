@@ -7,7 +7,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="PerkyFiDemo"
         component={PerkyFiVideo}
-        durationInFrames={2100} // 70 seconds at 30fps
+        durationInFrames={2250} // 75 seconds at 30fps
         fps={30}
         width={1920}
         height={1080}
