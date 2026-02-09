@@ -6,7 +6,12 @@ import {
   interpolate,
   spring,
   Easing,
+  Img,
+  staticFile,
 } from "remotion";
+
+// PerkyFi mascot image
+const PERKYFI_IMAGE = staticFile("perkyfi-profile.jpg");
 
 // Colors
 const COLORS = {
@@ -102,7 +107,16 @@ const IntroScene = () => {
       <AnimatedBackground />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div style={{ transform: `scale(${logoScale})`, marginBottom: 30 }}>
-          <span style={{ fontSize: 150 }}>🔮</span>
+          <Img
+            src={PERKYFI_IMAGE}
+            style={{
+              width: 200,
+              height: 200,
+              borderRadius: "50%",
+              border: `4px solid ${COLORS.baseBlue}`,
+              objectFit: "cover",
+            }}
+          />
         </div>
         
         <h1 style={{
@@ -593,7 +607,17 @@ const OutroScene = () => {
       <AnimatedBackground />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div style={{ transform: `scale(${scale})`, textAlign: "center" }}>
-          <span style={{ fontSize: 120 }}>🔮</span>
+          <Img
+            src={PERKYFI_IMAGE}
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: "50%",
+              border: `4px solid ${COLORS.baseBlue}`,
+              objectFit: "cover",
+              marginBottom: 10,
+            }}
+          />
           <h1 style={{
             fontSize: 90,
             color: COLORS.white,
