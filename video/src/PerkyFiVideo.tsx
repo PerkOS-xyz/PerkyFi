@@ -11,12 +11,12 @@ import {
 } from "remotion";
 
 // PerkyFi mascot image
-const PERKYFI_IMAGE = staticFile("perkyfi-profile.jpg");
+const PERKYFI_MASCOT = staticFile("perkyfi-mascot.jpg");
 
 // Brand Colors (PerkOS)
 const COLORS = {
-  primary: "#EB1B69",      // Rosa PerkOS
-  secondary: "#0E0716",    // Purple oscuro
+  primary: "#EB1B69",      // PerkOS Pink
+  secondary: "#0E0716",    // Dark Purple
   baseBlue: "#0052FF",     // Base blue
   darkBg: "#0a0a0f",
   cardBg: "#12121a",
@@ -28,7 +28,7 @@ const COLORS = {
   gray: "#8892b0",
 };
 
-// Animated Background with PerkOS gradient
+// Animated Background with gradient
 const AnimatedBackground = ({ variant = "default" }: { variant?: "default" | "pink" }) => {
   const frame = useCurrentFrame();
   const primaryGradient = variant === "pink" ? COLORS.primary : COLORS.baseBlue;
@@ -96,7 +96,7 @@ const FadeInText: React.FC<{
   );
 };
 
-// Scene 1: Intro with mascot
+// Scene 1: Intro
 const IntroScene = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -112,11 +112,11 @@ const IntroScene = () => {
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div style={{ transform: `scale(${logoScale})`, marginBottom: 30 }}>
           <Img
-            src={PERKYFI_IMAGE}
+            src={PERKYFI_MASCOT}
             style={{
               width: 220,
               height: 220,
-              borderRadius: "50%",
+              borderRadius: 30,
               border: `5px solid ${COLORS.primary}`,
               objectFit: "cover",
               boxShadow: `0 0 60px ${COLORS.primary}50`,
@@ -177,9 +177,9 @@ const IntroScene = () => {
 // Scene 2: The First Predictive Yield Agent
 const ValuePropScene = () => {
   const pillars = [
-    { icon: "📊", title: "Análisis Predictivo", desc: "Lee Polymarket para sentiment del mercado" },
-    { icon: "💰", title: "Yield Optimization", desc: "Deposita en Morpho Blue para máximo APY" },
-    { icon: "🔗", title: "Transparencia Total", desc: "Todos los movimientos on-chain y públicos" },
+    { icon: "📊", title: "Predictive Analysis", desc: "Reads Polymarket for market sentiment" },
+    { icon: "💰", title: "Yield Optimization", desc: "Deposits in Morpho Blue for max APY" },
+    { icon: "🔗", title: "Full Transparency", desc: "All moves on-chain and public" },
   ];
 
   return (
@@ -194,7 +194,7 @@ const ValuePropScene = () => {
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            🔮 El Primer Agente DeFi que Combina
+            🔮 The First DeFi Agent that Combines
           </h2>
           <p style={{
             fontSize: 48,
@@ -202,7 +202,7 @@ const ValuePropScene = () => {
             marginBottom: 60,
             fontFamily: "system-ui, sans-serif",
           }}>
-            <span style={{ color: COLORS.accent }}>Predicciones</span> + <span style={{ color: COLORS.green }}>Yield</span> en Base
+            <span style={{ color: COLORS.accent }}>Predictions</span> + <span style={{ color: COLORS.green }}>Yield</span> on Base
           </p>
         </FadeInText>
 
@@ -247,11 +247,11 @@ const ValuePropScene = () => {
 // Scene 3: How It Works
 const HowItWorksScene = () => {
   const steps = [
-    { num: "01", text: "Analiza sentiment en Polymarket", icon: "📊" },
-    { num: "02", text: "Evalúa confianza (>75% para actuar)", icon: "🎯" },
-    { num: "03", text: "Optimiza posiciones en Morpho yield", icon: "💰" },
-    { num: "04", text: "Publica actualizaciones transparentes", icon: "🐦" },
-    { num: "05", text: "Registra todo on-chain via ERC-8004", icon: "🔗" },
+    { num: "01", text: "Analyzes sentiment on Polymarket", icon: "📊" },
+    { num: "02", text: "Evaluates confidence (>75% to act)", icon: "🎯" },
+    { num: "03", text: "Optimizes positions on Morpho yield", icon: "💰" },
+    { num: "04", text: "Publishes transparent updates", icon: "🐦" },
+    { num: "05", text: "Records everything on-chain via ERC-8004", icon: "🔗" },
   ];
 
   return (
@@ -266,7 +266,7 @@ const HowItWorksScene = () => {
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            ⚙️ Cómo Funciona
+            ⚙️ How It Works
           </h2>
         </FadeInText>
 
@@ -331,10 +331,10 @@ const TradingPhilosophyScene = () => {
             fontWeight: 700,
             fontFamily: "system-ui, sans-serif",
           }}>
-            📈 Conservative pero Efectivo
+            📈 Conservative but Effective
           </h2>
           <p style={{ fontSize: 26, color: COLORS.gray, marginBottom: 40 }}>
-            Estrategia basada en data, no en hype
+            Data-driven strategy, not hype-driven
           </p>
         </FadeInText>
 
@@ -415,7 +415,7 @@ const TechStackScene = () => {
             fontFamily: "system-ui, sans-serif",
             textAlign: "center",
           }}>
-            🛠️ Stack Técnico
+            🛠️ Tech Stack
           </h2>
         </FadeInText>
 
@@ -477,7 +477,7 @@ const PersonalityScene = () => {
           <FadeInText delay={20}>
             <div style={{ flex: 1 }}>
               <h3 style={{ fontSize: 28, color: COLORS.primary, marginBottom: 25 }}>Personality</h3>
-              {["Chill DeFi friend 🔮", "Casual, no corporativo", "Transparente siempre", "Data-driven decisions"].map((trait, i) => (
+              {["Chill DeFi friend 🔮", "Casual, not corporate", "Always transparent", "Data-driven decisions"].map((trait, i) => (
                 <div key={i} style={{
                   display: "flex",
                   alignItems: "center",
@@ -527,11 +527,11 @@ const PersonalityScene = () => {
 // Scene 7: Key Differentiators
 const DifferentiatorsScene = () => {
   const diffs = [
-    { emoji: "🥇", text: "Primer agente predictivo + yield en Base" },
-    { emoji: "📊", text: "Track record público y verificable" },
+    { emoji: "🥇", text: "First predictive + yield agent on Base" },
+    { emoji: "📊", text: "Public and verifiable track record" },
     { emoji: "🛡️", text: "Conservative approach - no degen" },
-    { emoji: "🆔", text: "ERC-8004 identity - reputación on-chain" },
-    { emoji: "🏠", text: "PerkOS ecosystem - parte de algo grande" },
+    { emoji: "🆔", text: "ERC-8004 identity - on-chain reputation" },
+    { emoji: "🏠", text: "PerkOS ecosystem - part of something big" },
   ];
 
   return (
@@ -547,7 +547,7 @@ const DifferentiatorsScene = () => {
             fontFamily: "system-ui, sans-serif",
             textAlign: "center",
           }}>
-            💡 ¿Por qué PerkyFi?
+            💡 Why PerkyFi?
           </h2>
         </FadeInText>
 
@@ -587,11 +587,11 @@ const OutroScene = () => {
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div style={{ transform: `scale(${scale})`, textAlign: "center" }}>
           <Img
-            src={PERKYFI_IMAGE}
+            src={PERKYFI_MASCOT}
             style={{
-              width: 140,
-              height: 140,
-              borderRadius: "50%",
+              width: 150,
+              height: 150,
+              borderRadius: 24,
               border: `4px solid ${COLORS.primary}`,
               objectFit: "cover",
               marginBottom: 15,
@@ -608,7 +608,7 @@ const OutroScene = () => {
             Perky<span style={{ color: COLORS.primary }}>Fi</span>
           </h1>
           <p style={{ fontSize: 30, color: COLORS.gray, marginBottom: 35 }}>
-            Tu friendly neighborhood DeFi agent 🔮
+            Your friendly neighborhood DeFi agent 🔮
           </p>
 
           <div style={{ display: "flex", gap: 25, justifyContent: "center", marginBottom: 35 }}>
