@@ -1,0 +1,21 @@
+{
+  "name": "perkyfi-video",
+  "version": "1.0.0",
+  "description": "PerkyFi Demo Video - Built with Remotion",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render PerkyFiDemo out/video.mp4",
+    "preview": "remotion preview"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.242",
+    "@remotion/cli": "4.0.242",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.242"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.28",
+    "typescript": "^5.9.3"
+  }
+}

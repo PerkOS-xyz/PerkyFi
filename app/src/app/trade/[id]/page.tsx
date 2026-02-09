@@ -130,9 +130,11 @@ export default function TradePage() {
   }
 
   const copyTxHash = () => {
-    navigator.clipboard.writeText(tradeData.txHash)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    if (tradeData.txHash) {
+      navigator.clipboard.writeText(tradeData.txHash)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
   }
 
   // Morpho deposit transaction (for copy trading)
@@ -253,6 +255,7 @@ export default function TradePage() {
       </div>
 
       {/* Transaction */}
+      {tradeData.txHash && (
       <div className="card mb-8">
         <h2 className="font-semibold mb-4">Agent's Transaction</h2>
         <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
@@ -277,6 +280,7 @@ export default function TradePage() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Copy Trade CTA */}
       <div className="card bg-gradient-to-br from-perky-primary/20 to-perky-secondary/20 border-perky-primary/30">
